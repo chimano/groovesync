@@ -4,7 +4,7 @@ import { Button } from '@ant-design/react-native';
 
 export default class AuthSpotify extends React.Component {
     handleSpotify = () => {
-        Spotify.initialize({ clientID: process.env.CLIENT_ID})
+        Spotify.initialize({ clientID: this.props.clientID })
     }
     
     render() {

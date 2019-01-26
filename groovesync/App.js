@@ -1,5 +1,5 @@
-require("dotenv").config();
 import React from "react";
+import { clientID } from "./config";
 import { StyleSheet, Text, View } from "react-native";
 import AuthSpotify from "./components/AuthSpotify";
 
@@ -8,7 +8,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Hello World!</Text>
-        <AuthSpotify />
+        <AuthSpotify clientID={clientID}/>
       </View>
     );
   }
