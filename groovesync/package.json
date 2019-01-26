@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@ant-design/react-native": "^3.0.6",
+    "dotenv": "^6.2.0",
     "expo": "^32.0.0",
     "expo-cli": "^2.7.0",
     "react": "16.5.0",
