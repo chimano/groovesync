@@ -7,10 +7,12 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@ant-design/react-native": "^3.0.6",
     "expo": "^32.0.0",
     "expo-cli": "^2.7.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-maps": "^0.23.0",
     "rn-spotify-sdk": "^1.1.13"
   },
   "devDependencies": {
