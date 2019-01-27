@@ -11,6 +11,8 @@ Add these to `activate` script in your virtual environment
 export DB_USERNAME="<username of the database user>"
 export DB_PASSWORD="<password of the database user>"
 export DB_NAME="<name of the database>"
+export SPOTIFY_CLIENT_ID="dddddddddddddddddddddddddddddddd"
+export SPOTIFY_SECRET_ID="dddddddddddddddddddddddddddddddd"
 ```
 
 Migrations:
