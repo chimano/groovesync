@@ -1,5 +1,7 @@
 package tech.groovesync.groovesync
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -8,9 +10,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 
+import khttp.get
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.AsyncTask
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
@@ -39,13 +44,14 @@ import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.net.URL
 
 class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     private var mMap: GoogleMap? = null
 
     private val mOkHttpClient = OkHttpClient()
-    private var mAccessToken: String? = null
+    private var mAccessToken: String = ""
     private var mCall: Call? = null
 
     private val redirectUri: String = "groovesync://callback"
@@ -129,7 +135,6 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             val findingBangersTextView = findViewById<TextView>(R.id.response_text_view)
             val connectButton = findViewById<Button>(R.id.connect_button)
             val findingBangersLayout = findViewById<LinearLayout>(R.id.finding_bangers_layout)
-            val matchLevelLayout = findViewById<LinearLayout>(R.id.match_level_layout)
 
             connectButton.visibility = View.GONE
 
@@ -137,11 +142,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             findingBangersLayout.visibility = View.VISIBLE
 
             //wait for stuff from backend
-
-            findingBangersLayout.visibility = View.GONE
-            matchLevelLayout.visibility = View.VISIBLE
-
-            //populate map with markers
+            BackendTask(this, mAccessToken).execute()
         }
     }
 
@@ -199,6 +200,30 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     companion object {
         val CLIENT_ID = "79adc6c2232740df8b8e157b4cf91b71"
         val AUTH_TOKEN_REQUEST_CODE = 0x10
+    }
+
+    class BackendTask(activity: Activity, accessToken: String ) : AsyncTask<Void, Void, Boolean>() {
+
+        private val activity  = activity
+        private val accessToken = accessToken
+
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val r = khttp.get(url = "ec2-52-203-144-14.compute-1.amazonaws.com/api/recommendations",
+                headers = mapOf(accessToken to "user_token"))
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            super.onPostExecute(result)
+            val findingBangersLayout = activity.findViewById<LinearLayout>(R.id.finding_bangers_layout)
+            val mMatchLevelLayout = activity.findViewById<LinearLayout>(R.id.match_level_layout)
+
+            findingBangersLayout.visibility = View.GONE
+            mMatchLevelLayout.visibility = View.VISIBLE
+
+            //populate map with markers
+
+        }
     }
 
 }
