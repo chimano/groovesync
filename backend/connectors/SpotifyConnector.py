@@ -81,7 +81,7 @@ def get_song_features(ids):
     return features
 
 
-def get_top_tracks(user_token):
+def get_top_tracks(user_token, limit=20):
     user_headers = {
         'Content-Type': "application/x-www-form-urlencoded",
         'Authorization': "Bearer %s" % (user_token)
@@ -92,4 +92,4 @@ def get_top_tracks(user_token):
     ids = []
     for track in response_dict:
         ids.append(track['name'])
-    return ids
+    return ids[:limit]
