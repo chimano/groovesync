@@ -11,8 +11,9 @@ API_URL = 'https://api.spotify.com/'
 acquired_at = datetime.datetime.now()
 auth_headers = {
     'Content-Type': "application/x-www-form-urlencoded",
-    'Authorization': base64.b64encode('%s:%s' % (client_id, secret_id))
+    'Authorization': "Basic " + base64.b64encode(b'%s:%s' % (client_id.encode(), secret_id.encode())).decode('utf-8')
 }
+print(auth_headers['Authorization'])
 
 MAX_LIMIT = 20
 
@@ -20,6 +21,7 @@ MAX_LIMIT = 20
 def refresh_token():
     r = requests.post(AUTH_URL + 'api/token', headers=auth_headers,
                       data={'grant_type': 'client_credentials'})
+    print(r.text)
     return r.json()['access_token']
 
 

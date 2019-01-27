@@ -17,8 +17,8 @@ def create_if_not_exists(model, defaults=None, **kwargs):
         return
 
 
-def main(input_file):
-    with open(input_file, 'r') as file:
+def main(args):
+    with open(args[0], 'r') as file:
         tt_data = literal_eval(file.read())
     for loc in tt_data:
         currrent_loc = Locations(loc[0], loc[1])
@@ -33,7 +33,9 @@ def main(input_file):
             create_if_not_exists(Songs, tunes_id=song_id, artist_id=artist_id)
 
             session.refresh(currrent_loc)
+            session.flush()
             current_play = Plays(currrent_loc.id, song_id, count)
             session.add(current_play)
+        print(currrent_loc.id)
 
     session.commit()
