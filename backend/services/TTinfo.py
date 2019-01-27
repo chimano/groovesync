@@ -4,8 +4,8 @@ from models import Songs, Artists
 
 
 def main(args):
-    offset = args[0]
-    start = args[1]
+    offset = int(args[0])
+    start = int(args[1])
     songs = session.query(Songs).all()
 
     i = 1
