@@ -35,11 +35,9 @@ if __name__ == '__main__':
             location_songs[location] = [p]
 
     # add song and artist names to un-flattened dict
-    for l in location_songs:
-        for s in l:
+    for l, val in location_songs.items():
+        print(val)
+        for s in val:
             artist = getArtist(s['artistId'])
             song = getSong(s['songId'])
-            s['songName'] = song
-            s['artistName'] = artist
-
-    print(location_songs)
+            
