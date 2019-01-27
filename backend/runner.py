@@ -8,7 +8,7 @@ if __name__ == "__main__":
     main = None
     if argv[1] == "parser" and len(argv) == 3:
         main = parser.main
-    elif argv[1] == "TTinfo" and len(argv) == 4:
+    elif argv[1] == "TTinfo" and len(argv) == 2:
         main = TTinfo.main
     elif argv[1] == "search" and len(argv) == 2:
         main = search.main

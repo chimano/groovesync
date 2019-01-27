@@ -73,7 +73,7 @@ class Plays(Base):
 class Artists(Base):
     __tablename__ = 'artists'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=True)
+    name = Column(String(256), nullable=True)
 
     def __init__(self, id):
         self.id = id

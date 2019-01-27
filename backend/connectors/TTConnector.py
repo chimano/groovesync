@@ -12,7 +12,7 @@ def get_artist_name(artist_id):
                      (artist_id), headers=headers)
     try:
         r.raise_for_status()
-        return r.json()['artistTitle']
+        return r.json()['artistName']
     except Exception as e:
         print(r.text)
 

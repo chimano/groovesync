@@ -47,14 +47,14 @@ def search_song(song_name, artist_name):
                              headers=headers)
 
         r.raise_for_status()
-        response_dict = json.loads(r.text)
-        for track in response_dict:
-            for artist in track['artists']:
-                if artist['name'].lower() == artist_name.lower():
-                    return track['id']
+        items = r.json()['tracks']['items']
+        for item in items:
+            for artist in item['artists']:
+                if artist['name'].lower() == ' '.join(artist_name.lower().split(',')[::-1]).strip():
+                    return item['id']
     except Exception as e:
         print("Failed to find song", e)
-    return -1
+        raise e
 
 
 def get_song_features(ids):
@@ -72,11 +72,12 @@ def get_song_features(ids):
                                  params={'ids': ','.join(batched_ids)},
                                  headers=headers)
             r.raise_for_status()
-            response_dict = json.loads(r.text)
+            response_dict = r.json()
+            print(response_dict)
             features = {**features, **dict(zip(batched_ids, response_dict['audio_features']))}
         except Exception as e:
             print("Something went wrong with the features", e)
-            return -1
+            return {}
 
     return features
 
