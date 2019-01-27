@@ -30,6 +30,10 @@ class Songs(Base):
     valence = Column(Float)
     tempo = Column(Float)
 
+    def __init__(self, tunes_id, artist_id):
+        self.tunes_id = tunes_id
+        self.artist_id = artist_id
+
 
 class Locations(Base):
     __tablename__ = 'locations'
@@ -47,6 +51,10 @@ class Locations(Base):
     valence = Column(Float)
     tempo = Column(Float)
 
+    def __init__(self, latitude, longitude):
+        self.longitude = longitude
+        self.latitude = latitude
+
 
 class Plays(Base):
     __tablename__ = 'plays'
@@ -54,9 +62,18 @@ class Plays(Base):
     location_id = Column(
         Integer, ForeignKey("locations.id"), nullable=False)
     song_id = Column(Integer, ForeignKey("songs.tunes_id"), nullable=False)
+    count = Column(Integer)
+
+    def __init__(self, location_id, song_id, count):
+        self.location_id = location_id
+        self.song_id = song_id
+        self.count = count
 
 
 class Artists(Base):
     __tablename__ = 'artists'
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
+
+    def __init__(self, id):
+        self.id = id
