@@ -1,7 +1,6 @@
 import requests
-import os
 
-api_key = os.environ['TT_API_KEY']
+api_key = "9923ac9b-8fd3-421f-b0e5-952f807c6885"
 headers = {
     'client-secret': api_key
 }

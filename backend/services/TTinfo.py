@@ -1,9 +1,6 @@
 from connectors.TTConnector import get_song_name, get_artist_name
 from db import session
 from models import Songs, Artists
-api_key = "9923ac9b-8fd3-421f-b0e5-952f807c6885"
-
-tt_connector = TTConnector(api_key)
 
 
 def main():
