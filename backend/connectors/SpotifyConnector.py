@@ -56,7 +56,7 @@ def search_song(song_name, artist_name):
 
 
 def get_song_features(ids):
-    features = []
+    features = {}
     for i in range(0, len(ids), MAX_LIMIT):
         batched_ids = ids[i:i + MAX_LIMIT]
         try:
@@ -71,7 +71,7 @@ def get_song_features(ids):
                                  headers=headers)
             r.raise_for_status()
             response_dict = json.loads(r.text)
-            features += response_dict['audio_features']
+            features = {**features, **dict(zip(batched_ids, response_dict['audio_features']))}
         except Exception as e:
             print("Something went wrong with the features", e)
             return -1

@@ -17,7 +17,7 @@ class Songs(Base):
     __tablename__ = 'songs'
     tunes_id = Column(Integer, primary_key=True)
     artist_id = Column(Integer, ForeignKey("artists.id"), nullable=False)
-    spotify_id = Column(Integer)
+    spotify_id = Column(String(50))
     name = Column(String(50), nullable=True)
     mode = Column(Integer)
     acousticness = Column(Float)
