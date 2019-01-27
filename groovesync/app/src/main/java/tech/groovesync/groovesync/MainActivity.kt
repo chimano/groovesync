@@ -50,13 +50,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val northAmerica = LatLng(45.7038948, -100.4260382)
+        val northAmerica = LatLng(47.1152462, -101.3094482)
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(northAmerica))
         mMap!!.setMinZoomPreference(2.5f)
     }

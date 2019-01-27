@@ -17,7 +17,6 @@
             android:layout_height="55dp"
             android:onClick="onRequestTokenClicked"
             android:text="Connect with Spotify"
-            android:textAllCaps="false"
             android:layout_alignParentBottom="true"
             style="@style/Widget.AppCompat.Button.Colored"
             android:textColor="@android:color/white"
