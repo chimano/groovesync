@@ -3,7 +3,7 @@ from models import Songs, Artists
 from connectors.SpotifyConnector import search_song, get_song_features
 
 
-def main():
+def main(args):
     songs = session.query(Songs)
     artists = session.query(Artists)
     for song in songs.all():

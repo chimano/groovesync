@@ -3,19 +3,26 @@ from db import session
 from models import Songs, Artists
 
 
-def main():
+def main(args):
     songs = session.query(Songs).all()
 
+    i = 1
     for song in songs:
+        i = i + 1
         song_name = get_song_name(song.tunes_id)
         song.name = song_name
+        if i % 10 == 0:
+            print(i)
 
     session.commit()
 
     artists = session.query(Artists).all()
 
     for artist in artists:
+        i = i + 1
         artist_name = get_artist_name(artist.id)
         artist.name = artist_name
+        if i % 10 == 0:
+            print(i)
 
     session.commit()
