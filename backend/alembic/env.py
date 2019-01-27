@@ -29,8 +29,9 @@ target_metadata = Base.metadata
 DB_USERNAME = os.environ['DB_USERNAME']
 DB_PASSWORD = os.environ['DB_PASSWORD']
 DB_NAME = os.environ['DB_NAME']
+DB_HOST = os.environ['DB_HOST']
 config.set_main_option(
-    'sqlalchemy.url', "mysql+pymysql://%s:%s@localhost/%s" % (DB_USERNAME, DB_PASSWORD, DB_NAME))
+    'sqlalchemy.url', 'mysql+pymysql://%s:%s@%s/%s' % (DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME))
 
 
 def run_migrations_offline():
