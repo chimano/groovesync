@@ -64,7 +64,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         super.onDestroy()
     }
 
-    fun onRequestTokenClicked() {
+    fun onRequestTokenClicked(view:View) {
         val request = getAuthenticationRequest(AuthenticationResponse.Type.TOKEN)
         AuthenticationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
     }
