@@ -10,30 +10,25 @@ REQUEST_HEADERS = {
 }
 OFFSET = 0
 
-def getArtist(id):
-    URL = BASE_URL + 'artist/%s' % (id)
-    r = requests.get(URL, headers=REQUEST_HEADERS)
-    return r
-
-
-def getSong(id):
-    URL + BASE_URL + 'song/%s' % (id)
-    r = requests.get(URL, headers=REQUEST_HEADERS)
-    return r
-
 if __name__ == '__main__':
     location_songs = { }
 
-    for OFFSET in range(0,6085877, 5000):
+    for OFFSET in range(0, 3976000, 5000):
         URL = BASE_URL + \
-            'plays?startDate=2018-11-19T21:00:00Z&endDate=2018-12-30T22:00:00Z&offset=%s&limit=5000' % (
+            'plays?startDate=2018-11-20T21:00:00Z&endDate=2018-11-30T22:00:00Z&offset=%s&limit=5000' % (
                 OFFSET)
         r = requests.get(URL, headers=REQUEST_HEADERS)
         print(OFFSET)
-        
+
         # organize locations as keys tuple and dictionary of songs
         # for every location
-        for p in r.json()['plays']:
+        try:
+            x = r.json()['plays']
+        except Exception as e:
+            print(str(e))
+            break
+
+        for p in x:
             lat = p['latitude']
             lng = p['longitude']
 
