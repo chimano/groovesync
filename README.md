@@ -1,10 +1,15 @@
+# groovesync 
+
+
+### Setup
+
 In `backend/services/`, add `settings.py`
 
 ```python
 client_secret = '<TouchTunes API-KEY>'
 ```
 
-3 environment variables are needed for the database connection
+5 environment variables are needed for the database connection
 Add these to `activate` script in your virtual environment
 
 ```dosini
@@ -28,8 +33,9 @@ alembic upgrade head
 alembic revision -m '<name>'
 ```
 
-To run Flask server:
+To run Flask developement server:
 ```shell
+# port 5000
 python app.py
 ```
 
@@ -39,10 +45,10 @@ python app.py
 location_songs = dict[Location -> dict[songId -> (count, playDate, artistId)]]
 ```
 
-### Deploying to Back-End to Production 
-Deployed with `nginx`, `gunicorn`, & and EC2 instance. Refer to (here)[https://www.matthealy.com.au/blog/post/deploying-flask-to-amazon-web-services-ec2/] for more information on the installation process
+### Deploying Back-End to Production 
+Deployed with `nginx`, `gunicorn`, & an AWS EC2 instance. Refer to [here](https://www.matthealy.com.au/blog/post/deploying-flask-to-amazon-web-services-ec2/) for more information on the installation process
 
-On the instance, run Flask from `backend/`
+On the instance, run Flask from `backend/` with
 ```sh
 gunicorn app:app -b localhost:8000
 ```
