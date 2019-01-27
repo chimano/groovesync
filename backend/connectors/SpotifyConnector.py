@@ -79,3 +79,17 @@ def get_song_features(ids):
             return -1
 
     return features
+
+
+def get_top_tracks(user_token, limit=20):
+    user_headers = {
+        'Content-Type': "application/x-www-form-urlencoded",
+        'Authorization': "Bearer %s" % (user_token)
+    }
+    r = requests.get(API_URL + "v1/me/top/tracks",
+                     headers=user_headers)
+    response_dict = r.json()
+    ids = []
+    for track in response_dict:
+        ids.append(track['name'])
+    return ids[:limit]
