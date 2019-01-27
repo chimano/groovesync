@@ -20,10 +20,10 @@ def average_features(track_features):
     return averages
 
 
-def distance(features1, features2):
+def similarity(features1, features2):
     dif_squared = 0
     for feature in features1:
         (features1[feature] - features2[feature]) ** 2
-    answer = math.sqrt(dif_squared)
-
-    return answer
+    distance = math.sqrt(dif_squared)
+    similarity_score = 1/(1+distance)
+    return similarity_score
