@@ -19,7 +19,6 @@ if __name__ == '__main__':
                 OFFSET)
         r = requests.get(URL, headers=REQUEST_HEADERS)
         print(OFFSET)
-
         # organize locations as keys tuple and dictionary of songs
         # for every location
         try:
@@ -47,4 +46,4 @@ if __name__ == '__main__':
                 location_songs[location] = { p['songId']: (1, p['playDate'], p['artistId'])}
     
     with open('out.log', 'w') as file:
-        file.write(location_songs)
+        file.write(str(location_songs))

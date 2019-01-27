@@ -8,13 +8,17 @@ client_secret = '<TouchTunes API-KEY>'
 Add these to `activate` script in your virtual environment
 
 ```dosini
-DB_USERNAME="<username of the database user>"
-DB_PASSWORD="<password of the database user>"
-DB_NAME="<name of the database>"
+export DB_USERNAME="<username of the database user>"
+export DB_PASSWORD="<password of the database user>"
+export DB_NAME="<name of the database>"
 ```
 
 Migrations:
-```
+```sh
+# Before running migrations, make sure `backend/` is in PYTHON path
+# by doing:
+export PYTHONPATH='./'
+
 # To run migrations
 alembic upgrade head
 
@@ -28,7 +32,7 @@ python app.py
 ```
 
 #### Data Structures
-```python
+```
 # in backend/services/main.py
 location_songs = dict[Location -> dict[songId -> (count, playDate, artistId)]]
 ```
