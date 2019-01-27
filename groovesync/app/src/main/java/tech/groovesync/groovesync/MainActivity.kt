@@ -9,11 +9,20 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 
 import com.spotify.sdk.android.authentication.AuthenticationClient
@@ -55,6 +64,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         val northAmerica = LatLng(47.1152462, -101.3094482)
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(northAmerica))
         mMap!!.setMinZoomPreference(2.5f)
+
     }
 
     override fun onDestroy() {
@@ -70,7 +80,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
     private fun getAuthenticationRequest(type: AuthenticationResponse.Type): AuthenticationRequest {
         return AuthenticationRequest.Builder(CLIENT_ID, type, redirectUri)
             .setShowDialog(false)
-            .setScopes(arrayOf("user-read-email","user-top-read"))
+            .setScopes(arrayOf("user-read-email", "user-top-read"))
             .setCampaign("your-campaign-token")
             .build()
     }
@@ -105,7 +115,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
                     val jsonObject = JSONObject(response.body()!!.string())
                     Log.d("user jsonObject", jsonObject.toString())
                     val displayName = jsonObject.get("display_name") as String
-                    setResponse("Finding "+displayName+"\'s bangers")
+                    setResponse("Finding " + displayName + "\'s bangers")
                 } catch (e: JSONException) {
                     setResponse("Failed to parse data: $e")
                 }
@@ -116,14 +126,22 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     private fun setResponse(text: String) {
         runOnUiThread {
-            val responseView = findViewById<TextView>(R.id.response_text_view)
-            responseView.text = text
-
+            val findingBangersTextView = findViewById<TextView>(R.id.response_text_view)
             val connectButton = findViewById<Button>(R.id.connect_button)
+            val findingBangersLayout = findViewById<LinearLayout>(R.id.finding_bangers_layout)
+            val matchLevelLayout = findViewById<LinearLayout>(R.id.match_level_layout)
+
             connectButton.visibility = View.GONE
 
-            val findingBangersLayout = findViewById<LinearLayout>(R.id.finding_bangers_layout)
+            findingBangersTextView.text = text
             findingBangersLayout.visibility = View.VISIBLE
+
+            //wait for stuff from backend
+
+            findingBangersLayout.visibility = View.GONE
+            matchLevelLayout.visibility = View.VISIBLE
+
+            //populate map with markers
         }
     }
 
@@ -133,11 +151,49 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun createMarker(location: LatLng) {
+    private fun createMarker(location: LatLng, matchLevel: Int) { // add parameter for match level (strong/weak)
+
+        var color: Int? = null
+
+        if (matchLevel < 25) {
+            color = R.color.weak
+        } else if (matchLevel < 50) {
+            color = R.color.mediumWeak
+        } else if (matchLevel < 75) {
+            color = R.color.mediumStrong
+        } else {
+            color = R.color.strong
+        }
+
+        val markerIcon = vectorToBitmap(
+            R.drawable.marker,
+            ContextCompat.getColor(
+                applicationContext,
+                color
+            )
+        )
+
         mMap!!.addMarker(
             MarkerOptions()
                 .position(location)
+                .icon(markerIcon)
+                .title(matchLevel.toString() + "% Match")
         )
+
+    }
+
+    private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
+        val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
+        assert(vectorDrawable != null)
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable!!.intrinsicWidth,
+            vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        DrawableCompat.setTint(vectorDrawable, color)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     companion object {

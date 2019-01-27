@@ -3,4 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#6ae368</color>
+
+    <!-- Match Level -->
+    <color name="weak">#68beb5</color>
+    <color name="mediumWeak">#008577</color>
+    <color name="mediumStrong">#00574B</color>
+    <color name="strong">#022822</color>
+
 </resources>

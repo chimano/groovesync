@@ -45,4 +45,57 @@
 
     </LinearLayout>
 
+    <LinearLayout
+            android:id="@+id/match_level_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:text="Match Level"/>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:textAlignment="center"
+                    android:text="Weak"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="5dp"
+                    android:layout_alignParentRight="true"
+                    android:textAlignment="center"
+                    android:text="Strong"/>
+
+        </RelativeLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="50dp"
+                      android:orientation="horizontal">
+
+            <View android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/weak"/>
+            <View android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/mediumWeak"/>
+            <View android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/mediumStrong"/>
+            <View android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/strong"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 </RelativeLayout>
