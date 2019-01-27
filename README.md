@@ -26,3 +26,9 @@ To run Flask server:
 ```shell
 python app.py
 ```
+
+#### Data Structures
+```python
+# in backend/services/main.py
+location_songs = dict[Location -> dict[songId -> (count, playDate, artistId)]]
+```
