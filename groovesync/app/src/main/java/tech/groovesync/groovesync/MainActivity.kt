@@ -9,9 +9,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 
 import android.content.Intent
-import android.net.Uri
+import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import com.google.android.gms.maps.model.MarkerOptions
 
 import com.spotify.sdk.android.authentication.AuthenticationClient
 import com.spotify.sdk.android.authentication.AuthenticationRequest
@@ -34,14 +37,9 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
 
     private val mOkHttpClient = OkHttpClient()
     private var mAccessToken: String? = null
-    private var mAccessCode: String? = null
     private var mCall: Call? = null
 
-    private val redirectUri: Uri
-        get() = Uri.Builder()
-            .scheme(getString(R.string.com_spotify_sdk_redirect_scheme))
-            .authority(getString(R.string.com_spotify_sdk_redirect_host))
-            .build()
+    private val redirectUri: String = "groovesync://callback"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +50,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val northAmerica = LatLng(45.7038948, -100.4260382)
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(northAmerica))
-        mMap!!.setMinZoomPreference(3f)
+        mMap!!.setMinZoomPreference(2.5f)
     }
 
     override fun onDestroy() {
@@ -64,15 +66,15 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         super.onDestroy()
     }
 
-    fun onRequestTokenClicked(view:View) {
+    fun onRequestTokenClicked(view: View) {
         val request = getAuthenticationRequest(AuthenticationResponse.Type.TOKEN)
         AuthenticationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
     }
 
     private fun getAuthenticationRequest(type: AuthenticationResponse.Type): AuthenticationRequest {
-        return AuthenticationRequest.Builder(CLIENT_ID, type, redirectUri.toString())
+        return AuthenticationRequest.Builder(CLIENT_ID, type, redirectUri)
             .setShowDialog(false)
-            .setScopes(arrayOf("user-read-email"))
+            .setScopes(arrayOf("user-read-email","user-top-read"))
             .setCampaign("your-campaign-token")
             .build()
     }
@@ -87,7 +89,7 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
 
-    fun updateView(){
+    fun updateView() {
         val request = Request.Builder()
             .url("https://api.spotify.com/v1/me")
             .addHeader("Authorization", "Bearer " + mAccessToken!!)
@@ -104,8 +106,10 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
                 try {
-                    val displayName = JSONObject(response.body()!!.string()).get("display_name") as String
-                    setResponse(displayName)
+                    val jsonObject = JSONObject(response.body()!!.string())
+                    Log.d("user jsonObject", jsonObject.toString())
+                    val displayName = jsonObject.get("display_name") as String
+                    setResponse("Finding "+displayName+"\'s bangers")
                 } catch (e: JSONException) {
                     setResponse("Failed to parse data: $e")
                 }
@@ -118,9 +122,12 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         runOnUiThread {
             val responseView = findViewById<TextView>(R.id.response_text_view)
             responseView.text = text
-            responseView.visibility = View.VISIBLE
-            val connectButton = findViewById<TextView>(R.id.connect_button)
+
+            val connectButton = findViewById<Button>(R.id.connect_button)
             connectButton.visibility = View.GONE
+
+            val findingBangersLayout = findViewById<LinearLayout>(R.id.finding_bangers_layout)
+            findingBangersLayout.visibility = View.VISIBLE
         }
     }
 
@@ -130,8 +137,14 @@ class MainActivity : FragmentActivity(), OnMapReadyCallback {
         }
     }
 
-    companion object {
+    private fun createMarker(location: LatLng) {
+        mMap!!.addMarker(
+            MarkerOptions()
+                .position(location)
+        )
+    }
 
+    companion object {
         val CLIENT_ID = "79adc6c2232740df8b8e157b4cf91b71"
         val AUTH_TOKEN_REQUEST_CODE = 0x10
     }
