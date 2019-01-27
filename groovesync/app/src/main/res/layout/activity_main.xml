@@ -11,4 +11,20 @@
               tools:context=".MainActivity"
               android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+    <Button
+            android:id="@+id/connect_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:onClick="onRequestTokenClicked"
+            android:text="Connect with Spotify" />
+
+    <TextView
+            android:id="@+id/response_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:text="Line 1\nLine 2\nLine 3" />
+
 </LinearLayout>
