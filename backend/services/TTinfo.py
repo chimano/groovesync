@@ -1,23 +1,24 @@
-import os
 from connectors.TTConnector import TTConnector
 from db import session
 from models import Songs, Artists
-api_key = os.environ['TT_API']
+api_key = "9923ac9b-8fd3-421f-b0e5-952f807c6885"
 
 tt_connector = TTConnector(api_key)
 
-songs = session.query(Songs).all()
 
-for song in songs:
-    song_name = tt_connector.get_song_name(song.tunes_id)
-    song.name = song_name
+def main():
+    songs = session.query(Songs).all()
 
-session.commit()
+    for song in songs:
+        song_name = tt_connector.get_song_name(song.tunes_id)
+        song.name = song_name
 
-artists = session.query(Artists).all()
+    session.commit()
 
-for artist in artists:
-    artist_name = tt_connector.get_artist_name(artist.id)
-    artist.name = artist_name
+    artists = session.query(Artists).all()
 
-session.commit()
+    for artist in artists:
+        artist_name = tt_connector.get_artist_name(artist.id)
+        artist.name = artist_name
+
+    session.commit()

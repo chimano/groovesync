@@ -18,7 +18,7 @@ class Songs(Base):
     tunes_id = Column(Integer, primary_key=True)
     artist_id = Column(Integer, ForeignKey("artists.id"), nullable=False)
     spotify_id = Column(Integer)
-    name = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=True)
     mode = Column(Integer)
     acousticness = Column(Float)
     danceability = Column(Float)
@@ -73,7 +73,7 @@ class Plays(Base):
 class Artists(Base):
     __tablename__ = 'artists'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=True)
 
     def __init__(self, id):
         self.id = id

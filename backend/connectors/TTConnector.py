@@ -11,9 +11,9 @@ class TTConnector:
     def get_artist_name(self, artist_id):
         r = requests.get(self.BASE_URL + 'artist/%s' %
                          (artist_id), headers=self.headers)
-        return r.artistTitle
+        return r.json()['artistTitle']
 
     def get_song_name(self, tunes_id):
         r = requests.get(self.BASE_URL + 'song/%s' %
                          (tunes_id), headers=self.headers)
-        return r.songTitle
+        return r.json()['songTitle']
